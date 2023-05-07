@@ -9,7 +9,7 @@ class CamadaEntrada
     public function __construct(int $quantidadeEntradas)
     {
         for($i = 0; $i < $quantidadeEntradas; $i++){
-            $this->entradas[] = new Entrada();
+            $this->entradas[] = new Entrada($i + 1);
         }
     }
 }
