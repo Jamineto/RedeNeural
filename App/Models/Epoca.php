@@ -26,6 +26,8 @@ class Epoca
                 $entradas[$i]->valor = intval($data[$i]);
             }
             $this->redeNeural->calcularNetsOculta();
+            $this->redeNeural->calcularNetsSaida();
+            $this->redeNeural->calcularErroSaidas();
             dd($this);
         }
         $this->countEpoca++;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Conexao 
+class ConexaoEntrada
 {
     public Entrada $entrada;
     public Neuronio $neuronio;

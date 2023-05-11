@@ -8,6 +8,7 @@ class DataSet
     public int $saidas;
     public array $tipos;
     public array $data;
+    public array $arrayTraducao;
 
     public function __construct(string $path)
     {
@@ -32,5 +33,13 @@ class DataSet
         fclose($arquivo);
         $this->tipos = $saidasDiff;
         $this->saidas = count($saidasDiff);
+        $this->setTraducao(0, count($this->tipos) - 1);
+    }
+
+    private function setTraducao(int $min, int $max){
+        foreach ($this->tipos as $key => $tipo){
+            $this->arrayTraducao[$tipo] = ($key - $min) / ($max - $min);
+        }
+        dd($this->arrayTraducao);
     }
 }
