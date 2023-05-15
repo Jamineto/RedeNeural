@@ -23,14 +23,14 @@ class Epoca
         $entradas = $this->redeNeural->camadaEntrada->entradas;
         foreach ($dataSet->data as $data){
             for($i = 0; $i < count($data) - 1; $i++){
-                $entradas[$i]->valor = intval($data[$i]);
+                $entradas[$i]->valor = floatval($data[$i]);
             }
             $this->redeNeural->calcularNetsOculta();
             $this->redeNeural->calcularNetsSaida();
-            $this->redeNeural->calcularErroSaidas();
-            dd($this);
+            $this->redeNeural->calcularErroSaidas(floatval($data[count($data)]));
+            // TODO: Finalizar Matriz de Saida, utilizar os index
         }
         $this->countEpoca++;
-        dd($this);
+        dd($this->dataSet->matrizSaidas);
     }
 }

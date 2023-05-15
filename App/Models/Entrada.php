@@ -5,7 +5,7 @@ namespace App\Models;
 class Entrada 
 {
     public int $id;
-    public int $valor;
+    public float $valor;
 
     public function __construct(int $id)
     {
