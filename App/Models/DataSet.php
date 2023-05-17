@@ -98,4 +98,10 @@ class DataSet
             }
         }
     }
+
+    public function buscarValorDesejado(int $col, string $classe): int
+    {
+        $lin = array_search($classe,$this->tipos);
+        return $this->matrizSaidas[$lin][$col];
+    }
 }

@@ -17,7 +17,7 @@ class RedeNeuralService{
     }
     public static function treinamento(){
         $dados = new DataSet('base_treinamento.csv');
-        $rede = new RedeNeural($dados->entradas,$dados->saidas,true);
+        $rede = new RedeNeural($dados->entradas,$dados->saidas,$dados,true);
         $epoca = new Epoca($rede,$dados);
         $epoca->percorrer();
     }

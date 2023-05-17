@@ -19,18 +19,25 @@ class Epoca
 
     public function percorrer()
     {
-        $dataSet = $this->dataSet;
-        $entradas = $this->redeNeural->camadaEntrada->entradas;
-        foreach ($dataSet->data as $data){
-            for($i = 0; $i < count($data) - 1; $i++){
-                $entradas[$i]->valor = floatval($data[$i]);
+        while ($this->redeNeural->erroRede > $this->redeNeural->erroMinimo && $this->countEpoca < 400) {
+            $dataSet = $this->dataSet;
+            $entradas = $this->redeNeural->camadaEntrada->entradas;
+            foreach ($dataSet->data as $data) {
+                for ($i = 0; $i < count($data) - 1; $i++) {
+                    $entradas[$i]->valor = floatval($data[$i]);
+                }
+                $desejado = $data[count($data) - 1];
+                $this->redeNeural->calcularNetsOculta();
+                $this->redeNeural->calcularNetsSaida();
+                $this->redeNeural->calcularErroSaidas($desejado);
+                $this->redeNeural->calcularErroRede();
+                $this->redeNeural->calcularErroOculta();
+                $this->redeNeural->atualizarPesosConSaida();
+                $this->redeNeural->atualizarPesosConEntrada();
+                dump($this->redeNeural->erroRede);
             }
-            $this->redeNeural->calcularNetsOculta();
-            $this->redeNeural->calcularNetsSaida();
-            $this->redeNeural->calcularErroSaidas(floatval($data[count($data)]));
-            // TODO: Finalizar Matriz de Saida, utilizar os index
+            $this->countEpoca = $this->countEpoca + 1;
         }
-        $this->countEpoca++;
-        dd($this->dataSet->matrizSaidas);
+        dd($this,$this->redeNeural->erroRede,$this->redeNeural->erroMinimo,$this->countEpoca);
     }
 }

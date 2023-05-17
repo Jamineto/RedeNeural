@@ -14,5 +14,6 @@ class Saida
         $this->id = $id;
         $this->net = 0;
         $this->valor = 0;
+        $this->erro = 0;
     }
 }
