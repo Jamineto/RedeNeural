@@ -1,5 +1,10 @@
 * {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: black
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .space {
@@ -9,6 +14,7 @@
 div col-5 {
     margin-top: 10%;
 }
+
 
 .borda {
     border: 3px solid lightgray;
@@ -25,7 +31,7 @@ div col-5 {
 input[type=file]::file-selector-button {
     margin-right: 20px;
     border: none;
-    background: #084cdf;
+    background: linear-gradient(#273a5c, #243b55);
     padding: 10px 20px;
     border-radius: 10px;
     color: #fff;
@@ -34,5 +40,5 @@ input[type=file]::file-selector-button {
 }
 
 input[type=file]::file-selector-button:hover {
-    background: #0d45a5;
+    background: #214a80;
 }
