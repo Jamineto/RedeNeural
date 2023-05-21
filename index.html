@@ -13,12 +13,17 @@
 </head>
 
 <body>
+    <header class="example-header">
+        <h1 class="text-center">Inteligência Artificial</h1>
+        <p>Redes Neurais by <a href="https://www.youtube.com/watch?v=ZclUNVHW6mg&ab_channel=CLASHSHORTS"
+                target="_blank">Jamil e José Renato</a></p>
+    </header>
     <form>
         <div id="container" class="container space">
             <div class="row">
                 <div class="col-sm-6  borda h-100 ">
-                    <div class="text-center mx-auto mb-3 traca_linha">
-                        <h4 for="">Configurar número de neurônios</h4>
+                    <div class="text-center mx-auto mb-3 traca_linha titulo">
+                        <h5 for="">Configurar número de neurônios</h5>
                     </div>
                     <div class="col-5 mb-3 ">
                         <label class="label" class="form-label"> Camada de Entrada:</label>
@@ -80,17 +85,18 @@
                     </br>
                     <div class="input-group mb-3">
                         <div class="custom-file">
-                            <input type="file" class="" id="inputGroupFile04">
-                            <label class="custom-file-label" for="inputGroupFile04"></label>
+                            <input type="file" class="inputFile" id="inputFile" accept=".csv"
+                                onchange="importarArquivo(event)">
+                            <label class="custom-file-label " for="inputFile"></label>
                         </div>
-
                     </div>
                     <button type="button" id="btn">BOTÃO TESTE</button>
                 </div>
-                <div class="col-sm-4 borda" id="resultdo" style="display: none;">
-                    <div class="div2">Div 2</div>
-                    <div class="card text-center mx-auto">
-                        <label for="">Resultado</label>
+                <div class="col-sm-6" id="resultado" style="display: none;">
+                    <div id="tituloResultado" class="card text-center mx-auto tituloResultado">
+                        <!-- <label for="">Resultado</label> -->
+                        <canvas id="myChart"></canvas>
+                        <!-- <div id="Table" class="Table"></div> -->
                     </div>
                 </div>
 
@@ -100,5 +106,6 @@
 </body>
 
 <script src="/script.js" type=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </html>

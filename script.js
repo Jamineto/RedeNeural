@@ -1,11 +1,11 @@
 
 $(document).ready(function () {
-    // validarCamada();
 });
+
 $("#btn").click(function () {
-    if (validarForms()) {
-        //faço alguma coisa
-    }
+    // if (validarForms()) {
+    testeGrafico()
+    // }
 });
 
 function validarCamada() {
@@ -84,5 +84,62 @@ function validarForms() {
         return true;
 
     return false;
+}
+
+// function importarArquivo(event) {
+//     var file = event.target.files[0];
+
+//     var reader = new FileReader();
+//     reader.onload = function (e) {
+//         var contents = e.target.result;
+//         displayCSV(contents);
+//     };
+//     reader.readAsText(file);
+// }
+// function displayCSV(contents) {
+//     var lines = contents.split("\n");
+//     var table = document.createElement("table");
+
+//     for (var i = 0; i < lines.length; i++) {
+//         var row = document.createElement("tr");
+//         var cells = lines[i].split(",");
+
+//         for (var j = 0; j < cells.length; j++) {
+//             var cell = document.createElement("td");
+//             cell.textContent = cells[j];
+//             row.appendChild(cell);
+//         }
+
+//         table.appendChild(row);
+//     }
+//     document.body.appendChild(table);
+
+// }
+
+function testeGrafico() {
+
+    document.getElementById("resultado").style.display = "";
+
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# Resultado',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 }
 
