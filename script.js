@@ -3,10 +3,9 @@ $(document).ready(function () {
 });
 
 $("#btn").click(function () {
-    // if (validarForms()) {
-    testeGrafico()
-    verificaArquivo()
-    // }
+    if (validarForms()) {
+        testeGrafico()
+    }
 });
 
 function validarCamada() {
