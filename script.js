@@ -5,6 +5,7 @@ $(document).ready(function () {
 $("#btn").click(function () {
     // if (validarForms()) {
     testeGrafico()
+    verificaArquivo()
     // }
 });
 
@@ -86,6 +87,7 @@ function validarForms() {
     return false;
 }
 
+
 // function importarArquivo(event) {
 //     var file = event.target.files[0];
 
@@ -118,7 +120,9 @@ function validarForms() {
 
 function testeGrafico() {
 
-    document.getElementById("resultado").style.display = "";
+
+
+    // document.getElementById("tituloResultado").innerHTML += '<label>Resultado</label>';
 
     const ctx = document.getElementById('myChart');
 
@@ -127,7 +131,7 @@ function testeGrafico() {
         data: {
             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
             datasets: [{
-                label: '# Resultado',
+                label: '# of Votes',
                 data: [12, 19, 3, 5, 2, 3],
                 borderWidth: 1
             }]
@@ -140,6 +144,6 @@ function testeGrafico() {
             }
         }
     });
-
+    document.getElementById("resultado").style.display = "";
 }
 

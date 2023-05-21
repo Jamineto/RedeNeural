@@ -87,14 +87,15 @@
                         <div class="custom-file">
                             <input type="file" class="inputFile" id="inputFile" accept=".csv"
                                 onchange="importarArquivo(event)">
+                            <span class="text-danger erroFile d-none"></span>
                             <label class="custom-file-label " for="inputFile"></label>
                         </div>
                     </div>
                     <button type="button" id="btn">BOTÃO TESTE</button>
                 </div>
-                <div class="col-sm-6" id="resultado" style="display: none;">
-                    <div id="tituloResultado" class="card text-center mx-auto tituloResultado">
-                        <!-- <label for="">Resultado</label> -->
+                <div class="col-sm-6" id="resultado" style="display: none; ">
+                    <div id="tituloResultado" class="card text-center mx-auto tituloResultado3">
+                        <label for="">Resultado</label>
                         <canvas id="myChart"></canvas>
                         <!-- <div id="Table" class="Table"></div> -->
                     </div>
