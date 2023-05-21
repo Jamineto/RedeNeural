@@ -15,6 +15,10 @@ function validarCamada() {
         $(".errocamadaOculta").text("Preencha a Camada Oculta");
         $(".errocamadaOculta").removeClass("d-none");
         return false;
+    } else if (camada < 1) {
+        $(".camadaOculta").addClass('is-invalid');
+        $(".errocamadaOculta").text("A Camada Oculta precisa ser maior que 0 ");
+        $(".errocamadaOculta").removeClass("d-none");
     } else {
         $(".camadaOculta").removeClass('is-invalid');
         $(".errocamadaOculta").addClass('d-none');
@@ -57,7 +61,13 @@ function validartxAprendizado() {
         $(".errotx_Aprendizado").text("Preencha o Valor da Taxa de Aprendizado");
         $(".errotx_Aprendizado").removeClass("d-none");
         return false;
-    } else {
+    } else if (numero < 0 || numero > 1) {
+        $(".tx_Aprendizado").addClass('is-invalid');
+        $(".errotx_Aprendizado").text("A Taxa de Aprendizado precisa entre 0 e 1");
+        $(".errotx_Aprendizado").removeClass("d-none");
+        return false;
+    }
+    else {
         $(".tx_Aprendizado").removeClass('is-invalid');
         $(".errotx_Aprendizado").addClass('d-none');
         return true;
