@@ -35,22 +35,24 @@
                     </div>
                     <div class="col-5 mb-3">
                         <label class="label"> Camada Oculta: 0 para calculo automático</label>
-                        <input class="input form-control camadaOculta" type="number" id="camadaOculta">
+                        <input class="input form-control camadaOculta" type="number" name="camadaOculta"
+                            id="camadaOculta">
                         <span class="text-danger errocamadaOculta d-none"></span>
                     </div>
                     <div class="col-5 mb-3">
                         <label class="label"> Valor do Erro:</label>
-                        <input class="input form-control valorErro" type="number" name="" id="valorErro">
+                        <input class="input form-control valorErro" type="number" name="valorErro" id="valorErro">
                         <span class="text-danger erroValorErro d-none"></span>
                     </div>
                     <div class="col-5 mb-3">
                         <label class="label"> Número de Iterações:</label>
-                        <input class="input form-control numInt " type="number" name="" id="numInt">
+                        <input class="input form-control numInt " type="number" name="numInt" id="numInt">
                         <span class="text-danger erroNumInt d-none"></span>
                     </div>
                     <div class="col-5 mb-3">
                         <label class="label"> Taxa de Aprendizado (N):</label>
-                        <input class="input form-control tx_Aprendizado " type="number" name="" id="tx_Aprendizado">
+                        <input class="input form-control tx_Aprendizado " type="number" name="tx_Aprendizado"
+                            id="tx_Aprendizado">
                         <span class="text-danger errotx_Aprendizado d-none"></span>
                     </div>
 
@@ -85,8 +87,7 @@
                     </br>
                     <div class="input-group mb-3">
                         <div class="custom-file">
-                            <input type="file" class="inputFile" id="inputFile" accept=".csv"
-                                onchange="importarArquivo(event)">
+                            <input type="file" class="inputFile" name="inputFile" id="inputFile" accept=".csv">
                             <span class="text-danger erroFile d-none"></span>
                             <label class="custom-file-label " for="inputFile"></label>
                         </div>

@@ -3,33 +3,23 @@ $(document).ready(function () {
 });
 
 $("#btn").click(function () {
-    var forms = {
-        camadaOculta: $(".camadaOculta").val,
-        valorErro: $(".valorErro").val(),
-        numInt: $(".numInt").val(),
-        txAprendizado: $(".tx_Aprendizado").val(),
-        f_transferia: $('input[name="group1"]:checked').val(),
-        // arquivo: arquivo,
+    var formData = new FormData($('#fdados')[0]);
+    if (validarForms()) {
+        enviarForms(formData);
     }
-    alert(forms.f_transferia);
-    console.log(forms);
-    // if (validarForms()) {
-    //     // testeGrafico()
-    //     enviarForms(forms);
-    // }
 });
 
-function enviarForms(forms) {
-    $("")
+function enviarForms(formData) {
     $.ajax({
-        url: "",
+        url: "",//passar a URL
         method: "POST",
-        data: {
-            produto: produto
-        },
-        success: function (result) {
-            $("#modal").modal('hide');
-            carregaDados();
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+        }, error: function (xhr, status, error) {
+            console.log(error);
         }
     });
 }
