@@ -6,6 +6,7 @@ $("#btn").click(function () {
     var formData = new FormData($('#fdados')[0]);
     if (validarForms()) {
         enviarForms(formData);
+        // testeGrafico();
     }
 });
 
