@@ -3,10 +3,36 @@ $(document).ready(function () {
 });
 
 $("#btn").click(function () {
-    if (validarForms()) {
-        testeGrafico()
+    var forms = {
+        camadaOculta: $(".camadaOculta").val,
+        valorErro: $(".valorErro").val(),
+        numInt: $(".numInt").val(),
+        txAprendizado: $(".tx_Aprendizado").val(),
+        f_transferia: $('input[name="group1"]:checked').val(),
+        // arquivo: arquivo,
     }
+    alert(forms.f_transferia);
+    console.log(forms);
+    // if (validarForms()) {
+    //     // testeGrafico()
+    //     enviarForms(forms);
+    // }
 });
+
+function enviarForms(forms) {
+    $("")
+    $.ajax({
+        url: "",
+        method: "POST",
+        data: {
+            produto: produto
+        },
+        success: function (result) {
+            $("#modal").modal('hide');
+            carregaDados();
+        }
+    });
+}
 
 function validarCamada() {
     let camada = $('.camadaOculta').val();
@@ -15,7 +41,7 @@ function validarCamada() {
         $(".errocamadaOculta").text("Preencha a Camada Oculta");
         $(".errocamadaOculta").removeClass("d-none");
         return false;
-    } else if (camada < 1) {
+    } else if (camada < 0) {
         $(".camadaOculta").addClass('is-invalid');
         $(".errocamadaOculta").text("A Camada Oculta precisa ser maior que 0 ");
         $(".errocamadaOculta").removeClass("d-none");
@@ -145,4 +171,5 @@ function testeGrafico() {
     });
     document.getElementById("resultado").style.display = "";
 }
+
 

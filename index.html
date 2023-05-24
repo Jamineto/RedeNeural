@@ -18,7 +18,7 @@
         <p>Redes Neurais by <a href="https://www.youtube.com/watch?v=ZclUNVHW6mg&ab_channel=CLASHSHORTS"
                 target="_blank">Jamil e José Renato</a></p>
     </header>
-    <form>
+    <form id="fdados">
         <div id="container" class="container space">
             <div class="row">
                 <div class="col-sm-6  borda h-100 ">
@@ -34,7 +34,7 @@
                         <input class="input form-control disabled" type="number" name="" id="" disabled>
                     </div>
                     <div class="col-5 mb-3">
-                        <label class="label"> Camada Oculta:</label>
+                        <label class="label"> Camada Oculta: 0 para calculo automático</label>
                         <input class="input form-control camadaOculta" type="number" id="camadaOculta">
                         <span class="text-danger errocamadaOculta d-none"></span>
                     </div>
@@ -59,22 +59,22 @@
                             <legend class="col-form-label ">Função de Transferência:</legend>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input form-check-inline" type="radio" name="gridRadios"
-                                        id="gridRadios1" value="option1" checked>
+                                    <input class="form-check-input form-check-inline " name="group1" type="radio"
+                                        name="gridRadios" id="gridRadios1" value="linear" checked>
                                     <label class="form-check-label" for="gridRadios1">
                                         Linear
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input form-check-inline " type="radio" name="gridRadios"
-                                        id="gridRadios2" value="option2">
+                                    <input class="form-check-input form-check-inline" name="group1" type="radio"
+                                        name="gridRadios" id="gridRadios2" value="logistica">
                                     <label class="form-check-label" for="gridRadios2">
                                         Logística
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input form-check-inline" type="radio" name="gridRadios"
-                                        id="gridRadios3" value="option3">
+                                    <input class="form-check-input form-check-inline " name="group1" type="radio"
+                                        name="gridRadios" id="gridRadios3" value="hiperbolica">
                                     <label class="form-check-label" for="gridRadios3">
                                         Hiperbólica
                                     </label>
