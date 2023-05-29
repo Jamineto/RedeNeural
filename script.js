@@ -12,7 +12,7 @@ $("#btn").click(function () {
 
 function enviarForms(formData) {
     $.ajax({
-        url: "",//passar a URL
+        url: "index.php",//passar a URL
         method: "POST",
         data: formData,
         processData: false,

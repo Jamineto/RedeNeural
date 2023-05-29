@@ -19,7 +19,8 @@ class Epoca
 
     public function percorrer()
     {
-        while ($this->redeNeural->erroRede > $this->redeNeural->erroMinimo && $this->countEpoca < 400) {
+        $j = 0;
+        while ($this->redeNeural->erroRede > $this->redeNeural->erroMinimo && $this->countEpoca < 1) {
             $dataSet = $this->dataSet;
             $entradas = $this->redeNeural->camadaEntrada->entradas;
             foreach ($dataSet->data as $data) {
@@ -34,10 +35,11 @@ class Epoca
                 $this->redeNeural->calcularErroOculta();
                 $this->redeNeural->atualizarPesosConSaida();
                 $this->redeNeural->atualizarPesosConEntrada();
-                dump($this->redeNeural->erroRede);
+                dump($this->redeNeural->erroRede,$j + 1);
+                $j++;
             }
             $this->countEpoca = $this->countEpoca + 1;
         }
-        dd($this,$this->redeNeural->erroRede,$this->redeNeural->erroMinimo,$this->countEpoca);
+        dd($this,$this->redeNeural->erroRede /100000,$this->redeNeural->erroMinimo,$this->countEpoca);
     }
 }

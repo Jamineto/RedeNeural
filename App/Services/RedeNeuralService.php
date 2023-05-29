@@ -10,15 +10,17 @@ use App\Models\Epoca;
 use App\Models\Neuronio;
 use App\Models\RedeNeural;
 
-class RedeNeuralService{
+class RedeNeuralService
+{
 
-    public static function start(){
-        //$rede = new RedeNeural(2,2);
-    }
-    public static function treinamento(){
-        $dados = new DataSet('base_treinamento.csv');
-        $rede = new RedeNeural($dados->entradas,$dados->saidas,$dados,true);
-        $epoca = new Epoca($rede,$dados);
+    public static function executar($arquivo, $config)
+    {
+        $dados = new DataSet($arquivo);
+        if (preg_match("/(treinamento)/i", $arquivo) === 1)
+            $rede = new RedeNeural($dados->entradas, $dados->saidas, $dados, true, $config);
+        else
+            $rede = new RedeNeural($dados->entradas, $dados->saidas, $dados, false);
+        $epoca = new Epoca($rede, $dados);
         $epoca->percorrer();
     }
 }
