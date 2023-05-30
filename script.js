@@ -1,7 +1,3 @@
-
-$(document).ready(function () {
-});
-
 $("#btn").click(function () {
     var formData = new FormData($('#fdados')[0]);
     if (validarForms()) {
