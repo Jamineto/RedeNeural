@@ -12,11 +12,6 @@ class ConexaoSaida
     {
         $this->saida = $saida;
         $this->neuronio = $neuronio;
-        $this->peso = $this->random_number(-1,1);
-    }
-
-    private function random_number(int $min,int $max): float
-    {
-        return round(mt_rand() / mt_getrandmax() * ($max - $min) + $min,5);
+        $this->peso = rand(0, 100) / 100;
     }
 }

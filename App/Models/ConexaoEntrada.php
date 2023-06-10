@@ -12,13 +12,7 @@ class ConexaoEntrada
     {
         $this->entrada = $entrada;
         $this->neuronio = $neuronio;
-        //$this->peso = $this->random_number(-1,1);
-        $pesos = [1.1,-1.4];
-        $this->peso = $pesos[rand(0,1)];
+        $this->peso =  rand(0, 100) / 100;
     }
 
-    private function random_number($min, $max): float
-    {
-        return round(mt_rand() / mt_getrandmax() * ($max - $min) + $min,5);
-    }
 }

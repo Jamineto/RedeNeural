@@ -35,27 +35,26 @@ class DataSet
         $this->tipos = $saidasDiff;
         $this->saidas = count($saidasDiff);
         $this->parametrosNormalizacao();
-        $this->montaMatrizSaida();
     }
 
-    private function parametrosNormalizacao()
+    private function parametrosNormalizacao(): void
     {
         $maior = [];
         $menor = [];
         foreach ($this->data as $dataL) {
             for ($i = 0; $i < $this->entradas; $i++) {
                 $valor = floatval($dataL[$i]);
-                if(isset($maior[$i])){
+                if (isset($maior[$i])) {
                     if ($maior[$i] < $valor) {
                         $maior[$i] = $valor;
                     }
-                }else
+                } else
                     $maior[$i] = $valor;
-                if(isset($menor[$i])){
+                if (isset($menor[$i])) {
                     if ($valor < $menor[$i]) {
                         $menor[$i] = $valor;
                     }
-                }else
+                } else
                     $menor[$i] = $valor;
 
             }
@@ -71,7 +70,7 @@ class DataSet
     {
         foreach ($this->data as $key => $data) {
             for ($i = 0; $i < count($data) - 1; $i++) {
-                $this->data[$key][$i] = floatval($this->normalizar(floatval($this->data[$key][$i]),$i));
+                $this->data[$key][$i] = floatval($this->normalizar(floatval($this->data[$key][$i]), $i));
             }
         }
     }
@@ -86,22 +85,22 @@ class DataSet
     //     }
     // }
 
-    public function montaMatrizSaida(){
-        $tipos = $this->tipos;
-        for ($i = 0; $i < count($tipos); $i++) {
-            for ($j = 0; $j < count($tipos); $j++) {
-                if($tipos[$i] === $tipos[$j])
-                {
+    public function montaMatrizSaida(int $qntSaidas, array $entradas): void
+    {
+        for ($i = 0; $i < $this->saidas; $i++) {
+            for ($j = 0; $j < $this->saidas; $j++) {
+                if ($i === $j) {
                     $this->matrizSaidas[$i][$j] = 1;
-                }else
+                } else {
                     $this->matrizSaidas[$i][$j] = 0;
+                }
             }
         }
     }
 
     public function buscarValorDesejado(int $col, string $classe): int
     {
-        $lin = array_search($classe,$this->tipos);
+        $lin = array_search($classe, $this->tipos);
         return $this->matrizSaidas[$lin][$col];
     }
 }

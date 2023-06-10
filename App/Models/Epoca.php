@@ -17,10 +17,9 @@ class Epoca
         $this->countEpoca = 0;
     }
 
-    public function percorrer()
+    public function percorrer(): void
     {
-        $j = 0;
-        while ($this->redeNeural->erroRede > $this->redeNeural->erroMinimo && $this->countEpoca < 1) {
+        while ($this->redeNeural->erroRede > $this->redeNeural->erroMinimo && $this->countEpoca < 100) {
             $dataSet = $this->dataSet;
             $entradas = $this->redeNeural->camadaEntrada->entradas;
             foreach ($dataSet->data as $data) {
@@ -28,18 +27,19 @@ class Epoca
                     $entradas[$i]->valor = floatval($data[$i]);
                 }
                 $desejado = $data[count($data) - 1];
-                $this->redeNeural->calcularNetsOculta();
-                $this->redeNeural->calcularNetsSaida();
-                $this->redeNeural->calcularErroSaidas($desejado);
+                $this->redeNeural->calcularNetOculta();
+                $this->redeNeural->calcularSaidaOculta();
+                $this->redeNeural->calcularNetSaida();
+                $this->redeNeural->calcularSaidaSaida();
+                $this->redeNeural->calcularErroSaida($desejado);
                 $this->redeNeural->calcularErroRede();
-                $this->redeNeural->calcularErroOculta();
-                $this->redeNeural->atualizarPesosConSaida();
-                $this->redeNeural->atualizarPesosConEntrada();
-                dump($this->redeNeural->erroRede,$j + 1);
-                $j++;
+                $this->redeNeural->calcularErroCamadaOculta();
+//                $this->redeNeural->atualizarPesoSaida();
+                $this->redeNeural->atualizarPesoOculta();
+//                dd(json_encode($this->redeNeural));
             }
             $this->countEpoca = $this->countEpoca + 1;
         }
-        dd($this,$this->redeNeural->erroRede /100000,$this->redeNeural->erroMinimo,$this->countEpoca);
+        dd($this->redeNeural);
     }
 }

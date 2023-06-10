@@ -19,13 +19,9 @@ class RedeNeural
 
     public function __construct(int $entradas, int $saidas, DataSet $dataSet, bool $treinamento = false, array $config = [])
     {
-        if ($treinamento === false) {
-            $quantidadeNeuronios = 4;
-        } else {
-            $this->erroMinimo = $config['valorErro'];
-            $this->aprendizagem = $config['tx_Aprendizado'];
-            $quantidadeNeuronios = ($entradas + $saidas) / 2;
-        }
+        $this->erroMinimo = $config['valorErro'];
+        $this->aprendizagem = $config['tx_Aprendizado'];
+        $quantidadeNeuronios = ($entradas + $saidas) / 2;
         $quantidadeNeuronios = ceil($quantidadeNeuronios);
         $this->erroRede = 999;
         $this->camadaOculta = new CamadaOculta($quantidadeNeuronios);
@@ -34,9 +30,10 @@ class RedeNeural
         $this->dataSet = $dataSet;
         $this->criarConexoesEntradas();
         $this->criarConexoesSaida();
+        $this->dataSet->montaMatrizSaida(count($this->camadaSaida->saidas), $this->camadaEntrada->entradas);
     }
 
-    private function criarConexoesEntradas()
+    private function criarConexoesEntradas(): void
     {
         foreach ($this->camadaEntrada->entradas as $entrada) {
             foreach ($this->camadaOculta->neuronios as $neuronio) {
@@ -45,7 +42,7 @@ class RedeNeural
         }
     }
 
-    private function criarConexoesSaida()
+    private function criarConexoesSaida(): void
     {
         foreach ($this->camadaSaida->saidas as $saida) {
             foreach ($this->camadaOculta->neuronios as $neuronio) {
@@ -54,79 +51,86 @@ class RedeNeural
         }
     }
 
-    public function calcularNetsOculta()
+    public function calcularNetOculta(): void
     {
-        $conexoes = $this->conexoesEntrada;
-        $neuronios = $this->camadaOculta->neuronios;
-        foreach ($neuronios as $neuronio) {
-            $conexoesNeuronio = ArrayHelper::findPares($conexoes, $neuronio->id);
-            foreach ($conexoesNeuronio as $conexaoNeuronio) {
-                $neuronio->net += $conexaoNeuronio->peso * $conexaoNeuronio->entrada->valor;
+        $conexoesEntradaOculta = $this->conexoesEntrada;
+        foreach ($this->camadaOculta->neuronios as $neuronio) {
+            $conexoes = ArrayHelper::findPares($conexoesEntradaOculta, $neuronio->id);
+            foreach ($conexoes as $conexao) {
+                $neuronio->net += $conexao->entrada->valor * $conexao->peso;
             }
+        }
+    }
+
+    public function calcularSaidaOculta(): void
+    {
+        foreach ($this->camadaOculta->neuronios as $neuronio) {
             $neuronio->saida = $neuronio->net / 2;
         }
     }
 
-    public function calcularNetsSaida()
+    public function calcularNetSaida(): void
     {
-        $conexoes = $this->conexoesSaida;
-        $saidas = $this->camadaSaida->saidas;
-        foreach ($saidas as $saida) {
-            $conexoesSaidas = ArrayHelper::findPares($conexoes, $saida->id);
-            foreach ($conexoesSaidas as $conexaoSaida) {
-                $saida->net += $conexaoSaida->neuronio->saida * $conexaoSaida->peso;
+        $conexoesOcultaSaida = $this->conexoesSaida;
+        foreach ($this->camadaSaida->saidas as $saida) {
+            $conexoes = ArrayHelper::findPares($conexoesOcultaSaida, $saida->id, 2);
+            foreach ($conexoes as $conexao) {
+                $saida->net += $conexao->neuronio->saida * $conexao->peso;
             }
+        }
+    }
+
+    public function calcularSaidaSaida(): void
+    {
+        foreach ($this->camadaSaida->saidas as $saida) {
             $saida->valor = $saida->net / 2;
         }
     }
 
-    public function calcularErroSaidas(string $desejado)
+    public function calcularErroSaida(string $desejado): void
     {
-        $saidas = $this->camadaSaida->saidas;
-        foreach ($saidas as $key => $saida) {
-            //TODO: F(x)
-            $valorDesejado = $this->dataSet->buscarValorDesejado($key, $desejado);
-            $saida->erro = round(($valorDesejado - $saida->valor) * 0.5,10);
+        foreach ($this->camadaSaida->saidas as $key => $saida){
+            $valorDesejado = $this->dataSet->buscarValorDesejado($key,$desejado);
+            $saida->erro = (1 - $saida->valor) * 0.5;
         }
     }
 
-    public function calcularErroRede()
+    public function calcularErroRede(): void
     {
-        $erroSaidas = 0;
-        foreach ($this->camadaSaida->saidas as $saida) {
-            $erroSaidas += $saida->erro;
+        $erro = 0;
+        foreach ($this->camadaSaida->saidas as $saida){
+            $erro +=  round((1 - $saida->valor) ** 2, 4);
         }
-        $this->erroRede = round(0.5 * $erroSaidas,10);
+        $this->erroRede = 0.5 * $erro;
     }
 
-    public function calcularErroOculta()
+    public function calcularErroCamadaOculta(): void
     {
-        $conexoes = $this->conexoesSaida;
         $neuronios = $this->camadaOculta->neuronios;
+        $conexoesOcultaSaida = $this->conexoesSaida;
+        $somatoria = 0;
         foreach ($neuronios as $neuronio) {
-            $conexoesNeuronio = ArrayHelper::findPares($conexoes, $neuronio->id);
-            foreach ($conexoesNeuronio as $conexaoNeuronio) {
-                $neuronio->erro += $conexaoNeuronio->peso * $conexaoNeuronio->saida->erro;
+            $conexoes = ArrayHelper::findPares($conexoesOcultaSaida, $neuronio->id);
+            foreach ($conexoes as $conexao){
+                $somatoria += $conexao->saida->erro * $conexao->peso;
             }
-            $neuronio->erro = round($neuronio->erro * 0.5,10);
+            $neuronio->erro = $somatoria * 0.5;
         }
     }
 
-    public function atualizarPesosConSaida()
+    public function atualizarPesoSaida(): void
     {
-        $conexoes = $this->conexoesSaida;
-        foreach ($conexoes as $conexao) {
+        $conexoesOcultaSaida = $this->conexoesSaida;
+        foreach ($conexoesOcultaSaida as $conexao) {
             $conexao->peso = $conexao->peso + $this->aprendizagem * $conexao->saida->erro * $conexao->neuronio->saida;
         }
     }
 
-    public function atualizarPesosConEntrada()
+    public function atualizarPesoOculta(): void
     {
-        $conexoes = $this->conexoesEntrada;
-        foreach ($conexoes as $conexao) {
+        $conexoesEntraOculta = $this->conexoesEntrada;
+        foreach ($conexoesEntraOculta as $conexao) {
             $conexao->peso = $conexao->peso + $this->aprendizagem * $conexao->neuronio->erro * $conexao->entrada->valor;
         }
     }
-
-
 }

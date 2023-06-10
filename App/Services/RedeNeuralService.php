@@ -13,7 +13,7 @@ use App\Models\RedeNeural;
 class RedeNeuralService
 {
 
-    public static function executar($arquivo, $config)
+    public static function executar($arquivo, $config): void
     {
         $dados = new DataSet($arquivo);
         if (preg_match("/(treinamento)/i", $arquivo) === 1)

@@ -2,7 +2,9 @@
 
 use App\Helpers\FileUploadHelper;
 use App\Services\RedeNeuralService;
-ini_set("precision", "10");
+ini_set("precision", 10);
+ini_set('serialize_precision', 10);
+
 require "vendor/autoload.php";
 
 $fileUpload = FileUploadHelper::salvarUpload($_FILES);
