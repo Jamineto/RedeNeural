@@ -13,14 +13,22 @@ use App\Models\RedeNeural;
 class RedeNeuralService
 {
 
-    public static function executar($arquivo, $config): void
+    public static function executar($arquivo, $config): array
     {
-        $dados = new DataSet($arquivo);
-        if (preg_match("/(treinamento)/i", $arquivo) === 1)
+        if (preg_match("/(treinamento)/i", $arquivo) === 1) {
+            $dados = new DataSet($arquivo, true, []);
             $rede = new RedeNeural($dados->entradas, $dados->saidas, $dados, true, $config);
-        else
-            $rede = new RedeNeural($dados->entradas, $dados->saidas, $dados, false);
-        $epoca = new Epoca($rede, $dados);
-        $epoca->percorrer();
+            $epoca = new Epoca($rede, $dados);
+            return $epoca->treinamento();
+        } else {
+            $jsonData = file_get_contents('configuracoes.txt');
+            $configuracoes = json_decode($jsonData,true);
+            $config = array_merge($config,$configuracoes);
+            $dados = new DataSet($arquivo,false,$configuracoes);
+            $rede = new RedeNeural($dados->entradas, $dados->saidas, $dados, false, $config);
+            $epoca = new Epoca($rede, $dados);
+            $epoca->executar();
+        }
+        return [];
     }
 }

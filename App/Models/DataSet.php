@@ -11,7 +11,7 @@ class DataSet
     public array $parametros;
     public array $matrizSaidas;
 
-    public function __construct(string $path)
+    public function __construct(string $path, bool $treinamento = false, array $config)
     {
         $i = 0;
         $saidasDiff = [];
@@ -34,7 +34,12 @@ class DataSet
         fclose($arquivo);
         $this->tipos = $saidasDiff;
         $this->saidas = count($saidasDiff);
-        $this->parametrosNormalizacao();
+        if($treinamento){
+            $this->parametrosNormalizacao();
+        }else{
+            $this->parametros = $config['parametros'];
+            $this->normalizarDados();
+        }
     }
 
     private function parametrosNormalizacao(): void
