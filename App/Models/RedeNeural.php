@@ -23,11 +23,11 @@ class RedeNeural
     {
         $quantidadeNeuronios = ($entradas + $saidas) / 2;
         $quantidadeNeuronios = ceil($quantidadeNeuronios);
+        $this->dataSet = $dataSet;
         $this->erroRede = 999;
         $this->camadaOculta = new CamadaOculta($quantidadeNeuronios);
         $this->camadaEntrada = new CamadaEntrada($entradas);
-        $this->camadaSaida = new CamadaSaida(1);
-        $this->dataSet = $dataSet;
+        $this->camadaSaida = new CamadaSaida($this->dataSet->saidas);
         $this->criarConexoesEntradas($treinamento, $config);
         $this->criarConexoesSaida($treinamento, $config);
         $this->dataSet->montaMatrizSaida(count($this->camadaSaida->saidas), $this->camadaEntrada->entradas);
@@ -133,7 +133,7 @@ class RedeNeural
     {
         foreach ($this->camadaSaida->saidas as $key => $saida) {
             $valorDesejado = $this->dataSet->buscarValorDesejado($key, $desejado);
-            $saida->erro = (1 - $saida->valor) * $this->formula($saida->net, 2);
+            $saida->erro = ($valorDesejado - $saida->valor) * $this->formula($saida->net, 2);
         }
     }
 
@@ -202,5 +202,19 @@ class RedeNeural
                 break;
         }
         return $retorno;
+    }
+
+    public function resultados()
+    {
+        foreach ($this->camadaSaida->saidas as $saida){
+            if(isset($vencedor)){
+                if($saida->valor > $vencedor->valor){
+                    $vencedor = $saida;
+                }
+            }else{
+                $vencedor = $saida;
+            }
+        }
+        return $this->dataSet->tipos[$vencedor->id - 1];
     }
 }

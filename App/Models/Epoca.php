@@ -58,6 +58,8 @@ class Epoca
             $this->redeNeural->calcularSaidaOculta();
             $this->redeNeural->calcularNetSaida();
             $this->redeNeural->calcularSaidaSaida();
+            $obtido = $this->redeNeural->resultados();
+            dd($desejado,$obtido);
         }
     }
 
