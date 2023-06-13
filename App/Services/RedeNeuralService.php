@@ -27,8 +27,7 @@ class RedeNeuralService
             $dados = new DataSet($arquivo,false,$configuracoes);
             $rede = new RedeNeural($dados->entradas, $dados->saidas, $dados, false, $config);
             $epoca = new Epoca($rede, $dados);
-            $epoca->executar();
+            return $epoca->executar();
         }
-        return [];
     }
 }

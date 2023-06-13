@@ -15,7 +15,13 @@ function enviarForms(formData) {
         contentType: false,
         success: function (response) {
             let responseData = JSON.parse(response);
-            testeGrafico(responseData.data);
+            console.log(responseData.data)
+                if(responseData.data.tipo === 'e')
+                    tabela(responseData.data);
+                else
+                    testeGrafico(responseData.data[0]);
+            document.getElementById("resultado").style.display = "";
+
         }, error: function (xhr, status, error) {
             console.log(error);
         }
@@ -106,7 +112,7 @@ function testeGrafico(valoresHistorico) {
     const data = {
         labels: valoresHistorico,
         datasets: [{
-            label: 'My First Dataset',
+            label: 'Histórico de erro da rede',
             data: valoresHistorico,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
@@ -118,7 +124,28 @@ function testeGrafico(valoresHistorico) {
         data: data,
     };
     new Chart(ctx,config);
-    document.getElementById("resultado").style.display = "";
 }
 
 
+function tabela(valores){
+    valores = valores.data;
+    let acertos = 0;
+    for (let i = 0; i <valores.length; i++) {
+        if(valores[i][0] === valores[i][1])
+            acertos ++;
+    }
+    let acuracia = acertos / valores.length;
+    let data = "<tr></tr>";
+    data += "<tr>";
+    data += "<th>Desejado</th>";
+    data += "<th>Obtido</th>";
+    data += "</tr>";
+    for (let i = 0; i < valores.length; i++) {
+        data += "<tr>";
+        data += "<td>"+ valores[i][0] +"</td>";
+        data += "<td>"+ valores[i][1] +"</td>";
+        data += "</tr>";
+    }
+    document.getElementById('tabela').innerHTML = data;
+    document.getElementById('result').innerText = ""+acuracia;
+}

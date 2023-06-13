@@ -33,7 +33,7 @@ class Epoca
                 $this->redeNeural->calcularNetSaida();
                 $this->redeNeural->calcularSaidaSaida();
                 $this->redeNeural->calcularErroSaida($desejado);
-                $this->redeNeural->calcularErroRede();
+                $this->redeNeural->calcularErroRede($desejado);
                 $this->redeNeural->calcularErroCamadaOculta();
                 $this->redeNeural->atualizarPesoSaida();
                 $this->redeNeural->atualizarPesoOculta();
@@ -41,14 +41,23 @@ class Epoca
             $historico[] = $this->redeNeural->erroRede;
             $this->countEpoca = $this->countEpoca + 1;
         }
+        $erroMedioRede = 0;
+        foreach ($historico as $epoca){
+            $erroMedioRede += $epoca;
+        }
+        $erroMedioRede = $erroMedioRede / count($historico);
         $this->guardarValores();
-        return $historico;
+        return [$historico,$erroMedioRede];
     }
 
-    public function executar(): void
+    public function executar(): array
     {
         $dataSet = $this->dataSet;
         $entradas = $this->redeNeural->camadaEntrada->entradas;
+        $retorno = [
+            'tipo' => 'e',
+            'data' => []
+        ];
         foreach ($dataSet->data as $data) {
             for ($i = 0; $i < count($data) - 1; $i++) {
                 $entradas[$i]->valor = floatval($data[$i]);
@@ -59,8 +68,12 @@ class Epoca
             $this->redeNeural->calcularNetSaida();
             $this->redeNeural->calcularSaidaSaida();
             $obtido = $this->redeNeural->resultados();
-            dd($desejado,$obtido);
+            $retorno['data'][] = [
+                $desejado,
+                $obtido
+            ];
         }
+        return $retorno;
     }
 
     private function guardarValores(): void
